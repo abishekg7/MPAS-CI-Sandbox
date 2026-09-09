@@ -19,9 +19,9 @@ gnu:   # BUILDTARGET GNU Fortran, C, and C++ compilers
 	"FFLAGS_OPT = -std=f2008 -fimplicit-none -O3 -ffree-line-length-none -fconvert=big-endian -ffree-form" \
 	"CFLAGS_OPT = -O3" \
 	"CXXFLAGS_OPT = -O3" \
-	"LDFLAGS_OPT = -O3" \
+	"LDFLAGS_OPT = -O39" \
 	"FFLAGS_DEBUG = -std=f2008 -fimplicit-none -g -ffree-line-length-none -fconvert=big-endian -ffree-form -fcheck=all -fbacktrace -ffpe-trap=invalid,zero,overflow" \
-	"CFLAGS_DEBUG = -g" \
+"CFLAGS_DEBUG = -g" \
 	"CXXFLAGS_DEBUG = -g" \
 	"LDFLAGS_DEBUG = -g" \
 	"FFLAGS_OMP = -fopenmp" \
