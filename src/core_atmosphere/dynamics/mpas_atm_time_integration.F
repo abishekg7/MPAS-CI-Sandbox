@@ -41,7 +41,7 @@ module atm_time_integration
    ! Provides definition of halo_exchange_routine
 #include "mpas_halo_interface.inc"
 
-   integer :: timerid, secs, u_secs
+   i nteger :: timerid, secs, u_secs
 
    ! Used to store physics tendencies for dynamics variables
    real (kind=RKIND), dimension(:,:), pointer :: tend_ru_physics, tend_rtheta_physics, tend_rho_physics

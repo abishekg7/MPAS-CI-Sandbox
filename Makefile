@@ -1442,7 +1442,7 @@ musica_fortran_test:
 	$(eval MUSICA_FORTRAN_VERSION := $(shell pkg-config --modversion musica-fortran))
 	$(if $(findstring 1,$(MUSICA_FORTRAN_TEST)), $(info Built a simple test program with MUSICA-Fortran version $(MUSICA_FORTRAN_VERSION)), )
 
-scotch_c_test:
+scotch_c_ test:
 	@#
 	@# Create a C test program and try to build against the PT-SCOTCH library
 	@#
