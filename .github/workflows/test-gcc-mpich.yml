@@ -11,6 +11,10 @@ on:
     branches: [master, develop, 'feature/ci-cpu-testing']
 
 jobs:
+  strategy:
+      matrix:
+        compiler: [ gcc oneapi nvhpc ]
+        mpi: [ mpich openmpi ]
   test:
     uses: ./.github/workflows/_test-compiler.yml
     with:

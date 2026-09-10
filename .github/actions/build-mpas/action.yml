@@ -5,8 +5,15 @@ inputs:
   compiler:
     description: 'Compiler family (gcc, nvhpc, oneapi, etc.)'
     required: true
+  core:
+    description: 'MPAS Core to build (atmosphere, init_atmosphere, etc.)'
+    required: true
   use-pio:
     description: 'Use PIO library (true/false)'
+    required: false
+    default: 'false'
+  openmp:
+    description: 'Enable OpenMP (true/false)'
     required: false
     default: 'false'
   openacc:
@@ -65,6 +72,18 @@ runs:
             *)                  export COMPILER_FAMILY="${{ inputs.compiler }}" ;;
           esac
         fi
+
+        # Set up CORE
+        if [ -z "${CORE}" ]; then
+          case "${{ inputs.core }}" in
+            atmosphere)         export CORE="atmosphere" ;;
+            init_atmosphere)    export CORE="init_atmosphere" ;;
+            *)                  export CORE="atmosphere" ;;
+          esac
+        fi
+
+          esac
+        fi
         
         # Set up I/O configuration
         if [ "${{ inputs.use-pio }}" = "true" ]; then
@@ -73,6 +92,11 @@ runs:
         else
           unset PIO
           export USE_PIO2=false
+        fi
+
+        # Set up OpenMP configuration
+        if [ "${{ inputs.openmp }}" = "true" ]; then
+          export OPENMP=true
         fi
         
         # Set up accelerator configuration
@@ -87,6 +111,7 @@ runs:
         echo "  PNETCDF: ${PNETCDF:-not set}"
         echo "  USE_PIO2: ${USE_PIO2}"
         echo "  OPENACC: ${OPENACC:-false}"
+        echo "  OPENMP: ${OPENMP:-false}"
         echo "  PRECISION: ${{ inputs.precision }}"
         
         # Settings from .github/ci-config.env — edit that file to change targets/workarounds
@@ -125,7 +150,7 @@ runs:
         fi
 
         timeout ${{ inputs.build-timeout }}m \
-          make ${MAKE_TARGET} CORE=atmosphere ${EXTRA_MAKE_FLAGS} ${PRECISION_FLAG} --jobs ${MAKE_J_PROCS:-$(nproc)}
+          make ${MAKE_TARGET} CORE=${CORE} ${EXTRA_MAKE_FLAGS} ${PRECISION_FLAG} --jobs ${MAKE_J_PROCS:-$(nproc)}
         
         # Set output
         echo "executable=$(pwd)/atmosphere_model" >> $GITHUB_OUTPUT

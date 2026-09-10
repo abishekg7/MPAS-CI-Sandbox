@@ -17,6 +17,10 @@ on:
         description: 'Compiler family (gcc, nvhpc, oneapi)'
         required: true
         type: string
+      core:
+        description: 'MPAS core (atmosphere, init_atmosphere, etc.)'
+        required: true
+        type: string
       mpi:
         description: 'MPI implementation (mpich, openmpi)'
         required: true
@@ -57,7 +61,7 @@ jobs:
 
   build:
     needs: config
-    name: Build (${{ inputs.compiler }}, ${{ inputs.mpi }}, smiol)
+    name: Build (${{ inputs.compiler }}, ${{ inputs.core }}, ${{ inputs.mpi }}, smiol)
     runs-on: ubuntu-latest
     container:
       image: ${{ needs.config.outputs.image }}
